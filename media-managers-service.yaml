@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: 2018-06-30T10:49:37Z
+  labels:
+    app: media-managers
+  name: media-managers-svc
+  namespace: default
+spec:
+  ports:
+  - name: port-1
+    port: 3579
+    protocol: TCP
+    targetPort: 3579
+  - name: port-2
+    port: 7878
+    protocol: TCP
+    targetPort: 7878
+  - name: port-3
+    port: 8989
+    protocol: TCP
+    targetPort: 8989
+  selector:
+    app: media-managers
+  type: ClusterIP

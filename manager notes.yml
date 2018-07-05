@@ -1,0 +1,46 @@
+Managers
+# Ombi allows you to accept Movie or TV Show requests from friends and family.
+ombi:
+  container_name: ombi
+  image: linuxserver/ombi
+  ports:
+    - 9009:3579
+  volumes:
+    - ${USERDIR}/ombi:/config
+    - ${USERDIR}/shared:/shared    # a shared folder between all of the containers for things like SSL certificates etc
+  environment:
+    - TZ=${TZ}
+radarr:
+  container_name: "radarr"
+  image: "linuxserver/radarr"
+  restart: always
+  ports:
+    - 9006:7878
+  volumes:
+    - ${USERDIR}/radarr:/config
+    - ${USERDIR}/downloads/completed:/downloads
+    # TODO:: change media dir
+    - ${USERDIR}/media/movies:/movies
+    - "/etc/localtime:/etc/localtime:ro"
+    - ${USERDIR}/shared:/shared    # a shared folder between all of the containers for things like SSL certificates etc
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+sonarr:
+  container_name: "sonarr"
+  image: "linuxserver/sonarr"
+  restart: always
+  ports:
+    - 9007:8989
+  volumes:
+    - ${USERDIR}/sonarr:/config
+    - ${USERDIR}/downloads/completed:/downloads
+    # TODO: change media dir
+    - ${USERDIR}/media/tvshows:/tv
+    - "/etc/localtime:/etc/localtime:ro"
+    - ${USERDIR}/shared:/shared    # a shared folder between all of the containers for things like SSL certificates etc
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}

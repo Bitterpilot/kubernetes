@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  rules:
+  - host: mloop.local
+    http:
+      paths:
+      - path: /qbit
+        backend:
+          serviceName: media-downloaders-svc
+          servicePort: qbit-webui
+      - path: /sab
+        backend:
+          serviceName: media-downloaders-svc
+          servicePort: sab-webui-http

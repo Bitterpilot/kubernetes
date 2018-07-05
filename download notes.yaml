@@ -1,0 +1,11 @@
+# Downloaders
+qbittorrent:
+  volumes:
+    - ${USERDIR}/downloads/completed:/downloads
+  environment:
+    - UMASK_SET=002
+sabnzbd:
+  volumes:
+    - ${USERDIR}/sabnzbd:/config
+    - ${USERDIR}/downloads/completed:/downloads
+    - ${USERDIR}/downloads/incomplete:/incomplete-downloads

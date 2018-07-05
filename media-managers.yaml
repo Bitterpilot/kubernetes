@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media-managers
+spec:
+  selector:
+    matchLabels:
+      app: media-managers
+  template:
+    metadata:
+      labels:
+        app: media-managers
+    spec:
+      containers:
+      - name: ombi
+        image: linuxserver/ombi
+        ports:
+        - containerPort: 3579
+        volumeMounts:
+          - name: ombi
+            mountPath: /config
+      - name: radarr
+        image: linuxserver/radarr
+        ports:
+        - containerPort: 7878
+      - name: sonarr
+        image: linuxserver/sonarr
+        ports:
+        - containerPort: 8989
+      volumes:
+        - name: ombi
+          persistentVolumeClaim:
+            
+            

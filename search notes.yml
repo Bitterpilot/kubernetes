@@ -1,0 +1,34 @@
+search
+# Hydra is a meta search for NZB indexers
+hydra:
+  container_name: "hydra"
+  image: "linuxserver/hydra"
+  restart: always
+  ports:
+    - 9010:5075
+  volumes:
+    - ${USERDIR}/hydra:/config
+    - ${USERDIR}/downloads:/downloads
+    - ${USERDIR}/shared:/shared    # a shared folder between all of the containers for things like SSL certificates etc
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ} 
+# Jackett is a proxy server that translates search queries from apps such as SickRage,
+# CouchPotato, Sonarr, Mylar, Radarr, etc. into torrent tracker-site-specific HTTP
+# queries.
+jackett:
+  container_name: "jackett"
+  image: "linuxserver/jackett"
+  restart: always
+  ports:
+    - 9011:9117
+  volumes:
+    - ${USERDIR}/jackett:/config
+    - ${USERDIR}/downloads/completed:/downloads
+    - "/etc/localtime:/etc/localtime:ro"
+    - ${USERDIR}/shared:/shared    # a shared folder between all of the containers for things like SSL certificates etc
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}

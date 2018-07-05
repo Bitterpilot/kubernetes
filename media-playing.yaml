@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media-player
+spec:
+  selector:
+    matchLabels:
+      app: media-player
+  template:
+    metadata:
+      labels:
+        app: media-player
+    spec:
+        containers:
+        - name: plex
+          image: plexinc/pms-docker
+          ports:
+          - containerPort: 32400 #/tcp
+          - containerPort: 3005 #/tcp
+          - containerPort: 8324 #/tcp
+          - containerPort: 32469 #/tcp
+          - containerPort: 1900 #/udp
+            protocol: UDP
+          - containerPort: 32410 #/udp
+            protocol: UDP
+          - containerPort: 32412 #/udp
+            protocol: UDP
+          - containerPort: 32413 #/udp
+            protocol: UDP
+          - containerPort: 32414 #/udp
+            protocol: UDP
+
+        - name: tautulli
+          image: tautulli/tautulli
+          ports:
+           - containerPort: 8181

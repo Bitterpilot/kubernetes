@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media-downloaders
+spec:
+  selector:
+    matchLabels:
+      app: media-downloaders
+  template:
+    metadata:
+      labels:
+        app: media-downloaders
+    spec:
+      volumes:
+      - name: media-pv-storage
+        persistentVolumeClaim:
+          claimName: media-pv-claim
+      containers:
+      - name: qbittorrent
+        image: linuxserver/qbittorrent
+        ports:
+        - containerPort: 8080
+          name: qbit-webui
+        # - containerPort: 6881
+        #   name: qbit-xfer
+        volumeMounts:
+        - mountPath: "/config"
+          name: media-pv-storage
+          subPath: qbittorrent
+        env:
+          # - name: WEBUI_PORT
+          #   value: "8090"
+          - name: TZ
+            valueFrom:
+              configMapKeyRef:
+                name: media-config
+                key: TZ
+          - name: PUID
+            valueFrom:
+              configMapKeyRef:
+                name: media-config
+                key: PUID
+          - name: PGID
+            valueFrom:
+              configMapKeyRef:
+                name: media-config
+                key: PGID
+      - name: sabnzbd
+        image: linuxserver/sabnzbd
+        ports:
+          - containerPort: 8080
+            name: sab-webui-http
+          # - containerPort: 9090
+          #   name: sab-webui-https
+        volumeMounts:
+        - mountPath: "/config"
+          name: media-pv-storage
+          subPath: sabnzbd
+        env:
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: media-config
+                  key: TZ
+            - name: PUID
+              valueFrom:
+                configMapKeyRef:
+                  name: media-config
+                  key: PUID
+            - name: PGID
+              valueFrom:
+                configMapKeyRef:
+                  name: media-config
+                  key: PGID

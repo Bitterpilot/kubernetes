@@ -1,0 +1,10 @@
+kubectl create -f media-pv.yaml && \
+kubectl create -f media-pv-claim.yaml && \
+kubectl create -f media-downloaders.yaml && \
+kubectl create -f media-downloaders-svc.yaml
+
+
+kubectl delete -f media-downloaders-svc.yaml && \
+kubectl delete -f media-downloaders.yaml && \
+kubectl delete -f media-pv-claim.yaml && \
+kubectl delete -f media-pv.yaml

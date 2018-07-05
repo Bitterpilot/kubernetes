@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: media-config
+data:
+  TZ: Australia/Perth
+  PUID: "1001"
+  PGID: "1001"
